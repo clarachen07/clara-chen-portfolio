@@ -2,55 +2,48 @@
 
 ## Thesis
 
-The site presents Clara's work as a sequence of research missions. Apple-like
-clarity makes each idea feel like an exhibit; SpaceX-like contrast gives every
-project a sense of scale and forward motion. The result must never imitate
-either brand. Clara's own mathematical manifold is the signature.
+The site combines Apple-like clarity with SpaceX-like scale and engineering rhythm without copying either brand. Clara's deterministic mathematical manifold is the personal signature; the rest of the interface stays editorial, legible, and restrained.
 
-## Tokens
+## Color
 
-- Paper `#F5F5F7`: primary reading canvas.
-- White `#FFFFFF`: high-contrast text and image mats.
-- Ink `#1D1D1F`: type and controls on light surfaces.
-- Night `#000000`: full-bleed mission surfaces.
-- Night Soft `#0A0A0A`: secondary dark reading surface.
-- Signal Oxblood `#4E0B11`: one small active or data signal per composition.
+- Paper `#F5F5F7`: homepage and neutral reading canvas.
+- White `#FFFFFF`: résumé surface and high-contrast type.
+- Ink `#1D1D1F`: primary text and controls on light surfaces.
+- Night `#000000`: closing surface.
+- Night Soft `#0A0A0A`: secondary dark surface.
+- Signal Oxblood `#4E0B11`: focus and rare active signals only.
+- Project Blue `#0E2543` with Air Blue `#AFD4E4`: project introduction.
+- Project Yellow `#FFD753`: six-project archive.
 
-No decorative gradients. Use surface changes, real project figures, hairlines,
-and negative space for depth. Shadows are not part of the interface.
+Do not add decorative gradients, glass effects, heavy shadows, rockets, Apple/SpaceX marks, or stock space imagery. Depth comes from surface changes, hairlines, typography, and negative space.
 
 ## Type
 
-- Signature: Bodoni Moda 400, used only for the name and rare personal marks.
-- Display/UI: Inter 600–700, tight in sentence case and positively tracked in
-  uppercase mission headings.
-- Body: Inter 400–500, 17–20px with generous line-height.
+- Signature: Bodoni Moda 400 for the large Clara Chen name and rare personal marks.
+- Display/UI: Inter 600–700 with deliberate tracking and compact line-height.
+- Body: Inter 400–500 at a comfortable responsive size and generous line-height.
+- Navigation stays visually consistent on every route. The homepage and internal pages share the Clara Chen wordmark and the Projects / Resume / LinkedIn / GitHub actions.
 
-## Layout
+## Current page rhythm
 
-Full-viewport light and dark bands alternate without card chrome. Text lives in
-a centered 1440px frame; reading columns stay below 760px. Project numbers are
-used only when the projects form a real ordered mission sequence.
+- Home hero: Paper surface, oversized name, one-line identity statement, and an enlarged deterministic manifold.
+- Project introduction: full-width Project Blue field with a breathable display heading.
+- Project archive: Project Yellow field containing six text-only dossiers; no screenshots or decorative card imagery.
+- Footer: full-width Night surface without the removed contact-callout copy.
+- Résumé: formal white/gray editorial layout with a restrained portrait and tighter section spacing. It intentionally keeps its own academic tone.
 
-## Signature
+`/projects` begins directly with the shared project experience. The former individual case-study routes are compatibility redirects rather than separate page designs.
 
-Mission Manifold: deterministic orbital lines, nodes, and project data plots
-move from the home hero into project pages. Keep every other decorative choice
-quiet so this remains the memorable element.
+## Signature and motion
 
-## Interaction
+The Mission Manifold uses fixed SVG paths, orbital lines, and nodes. It must never rely on runtime randomness. Motion is limited to a composed hero entrance, restrained manifold drift, smooth in-page project navigation, and viewport reveals.
 
-- One orchestrated hero entrance, then restrained viewport reveals.
-- Buttons use either a filled ink capsule on light or a white ghost capsule on
-  dark. Never show more than two competing actions.
-- All touch targets are at least 44px. Focus rings use Signal Oxblood.
-- `prefers-reduced-motion` removes drift, reveal motion, and smooth scrolling.
+`prefers-reduced-motion` disables drift, reveal transitions, and smooth scrolling. Touch targets are at least 44px, keyboard focus is visible, and the mobile layout must remain fully readable rather than scaling down a desktop artboard.
 
-## Guardrails
+## Content guardrails
 
-- No rockets, Apple/SpaceX logos, stock space imagery, glass-card grids, neon,
-  decorative gradients, or invented project outcomes.
-- Use actual repository figures and verified copy. The absence of imagery is
-  preferable to a generic illustration.
-- Mobile retains the typography and mission rhythm; it does not shrink the
-  desktop artboard wholesale.
+- Keep claims traceable to Clara's résumé or public repositories; never invent metrics or outcomes.
+- Keep the project archive text-first and concise.
+- External links open safely and are visibly marked.
+- Hide the résumé PDF action until a public PDF URL is configured.
+- Preserve the final black surface and the blue-to-yellow project sequence when extending the site.
