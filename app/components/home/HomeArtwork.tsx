@@ -27,19 +27,6 @@ const sliceEllipses = [
   { cx: 1092, cy: 664, rx: 68, ry: 10, count: 10, rotation: 4 },
 ];
 
-const lensRings = Array.from({ length: 17 }, (_, index) => ({
-  rx: 48 + index * 8.6,
-  ry: 6 + index * 2.25,
-  opacity: 0.3 - index * 0.011,
-}));
-
-const lensThreads = Array.from({ length: 12 }, (_, index) => {
-  const x = 86 + index * 29;
-  const bend = Math.sin(index * 0.72) * 18;
-  return `M ${x} 533
-    C ${x + 40 + bend} 494, ${x + 60 - bend} 590, ${x + 94} 612`;
-});
-
 function pointOnSlice(sliceIndex: number, angle: number) {
   const { cx, cy, rx, ry, count, rotation } = sliceEllipses[sliceIndex];
   const outerRx = rx + (count - 1) * 10.2;
@@ -130,54 +117,8 @@ export function ArtworkStructure() {
           <stop offset="1" stopColor="var(--cc-paper)" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <g className="cc-upper-left-plot" fill="none" vectorEffect="non-scaling-stroke">
-        <path d="M 151 343 C 218 331, 271 302, 304 216" stroke="var(--cc-hairline)" strokeWidth="0.8" opacity="0.58" />
-        <circle cx="305" cy="306" r="3" fill="var(--cc-oxblood)" />
-        <circle cx="325" cy="211" r="3.2" fill="var(--cc-olive)" />
-      </g>
-
-      <g className="cc-financial-chart" vectorEffect="non-scaling-stroke">
-        <g fill="none" stroke="var(--cc-hairline-deep)" strokeWidth="0.6">
-          <path d="M 54 884 C 132 884, 158 724, 232 716 C 306 708, 338 884, 438 884" opacity="0.28" />
-          <line x1="76" y1="936" x2="430" y2="936" opacity="0.34" />
-          <line x1="76" y1="932" x2="76" y2="940" opacity="0.5" />
-          <line x1="430" y1="932" x2="430" y2="940" opacity="0.5" />
-        </g>
-        <path d="M 96 890 C 164 878, 214 852, 264 826 C 312 802, 354 776, 410 754" fill="none" stroke="var(--cc-oxblood)" strokeWidth="0.8" opacity="0.28" />
-        <circle cx="306" cy="776" r="6" fill="var(--cc-white)" stroke="var(--cc-olive)" strokeWidth="0.9" opacity="0.62" />
-        <circle cx="306" cy="776" r="2" fill="var(--cc-olive)" opacity="0.55" />
-      </g>
-
-      <g className="cc-left-lens" fill="none" vectorEffect="non-scaling-stroke">
-        <ellipse cx="246" cy="566" rx="184" ry="52" transform="rotate(13 246 566)" fill="var(--cc-paper-highlight)" opacity="0.22" stroke="none" />
-        {lensRings.map(({ rx, ry, opacity }, index) => (
-          <ellipse
-            key={`lens-ring-${index}`}
-            cx="246"
-            cy="566"
-            rx={rx}
-            ry={ry}
-            transform="rotate(13 246 566)"
-            stroke="var(--cc-hairline-deep)"
-            strokeWidth="0.55"
-            opacity={opacity}
-          />
-        ))}
-        {lensThreads.map((path, index) => (
-          <path
-            key={`lens-thread-${index}`}
-            d={path}
-            stroke="var(--cc-hairline)"
-            strokeWidth="0.52"
-            opacity={0.1 + (index % 4) * 0.022}
-          />
-        ))}
-        <path d="M 78 565 C 148 478, 338 493, 424 573" stroke="var(--cc-olive)" strokeWidth="0.66" opacity="0.38" />
-        <path d="M 92 593 C 186 640, 318 638, 410 584" stroke="var(--cc-hairline-deep)" strokeWidth="0.52" opacity="0.28" />
-      </g>
-
       <g className="cc-manifold" fill="none" vectorEffect="non-scaling-stroke">
-        <g className="cc-manifold-composition" transform="translate(250 8) scale(0.8)">
+        <g className="cc-manifold-composition" transform="translate(70 -60) scale(0.98)">
         <ellipse cx="1094" cy="445" rx="272" ry="318" fill="url(#cc-manifold-halo)" stroke="none" />
         <path
           d="M 1024 104 C 1068 206, 982 302, 944 390 C 902 488, 971 584, 1060 646 C 988 606, 912 540, 918 438 C 923 330, 1014 234, 1024 104 Z"
@@ -185,7 +126,7 @@ export function ArtworkStructure() {
           stroke="none"
           opacity="0.42"
         />
-        <g className="cc-manifold-axis" stroke="var(--cc-hairline-deep)" opacity="0.34">
+        <g className="cc-manifold-axis" stroke="var(--cc-hairline-deep)" opacity="0.5">
           <line x1="1120" y1="120" x2="1095" y2="748" strokeWidth="0.52" />
           {[275, 478, 664].map((y, index) => (
             <g key={y}>
@@ -195,10 +136,10 @@ export function ArtworkStructure() {
           ))}
         </g>
         {manifoldBands.map((path, index) => (
-          <path key={index} d={path} stroke="var(--cc-hairline-deep)" strokeWidth="0.52" opacity={0.11 + (index % 8) * 0.012} />
+          <path key={index} d={path} stroke="var(--cc-hairline-deep)" strokeWidth="0.68" opacity={0.19 + (index % 8) * 0.014} />
         ))}
         {manifoldMeridians.map((path, index) => (
-          <path key={`meridian-${index}`} d={path} stroke="var(--cc-hairline-deep)" strokeWidth="0.48" opacity={0.12 + (index % 5) * 0.018} />
+          <path key={`meridian-${index}`} d={path} stroke="var(--cc-hairline-deep)" strokeWidth="0.64" opacity={0.2 + (index % 5) * 0.02} />
         ))}
         {sliceEllipses.flatMap(({ cx, cy, rx, ry, count, rotation }, groupIndex) =>
           Array.from({ length: count }, (_, index) => (
@@ -210,8 +151,8 @@ export function ArtworkStructure() {
               ry={ry + index * 2.15}
               transform={`rotate(${rotation} ${cx} ${cy})`}
               stroke="var(--cc-hairline)"
-              strokeWidth="0.56"
-              opacity={0.31 - index * 0.011}
+              strokeWidth="0.7"
+              opacity={0.43 - index * 0.012}
             />
           )),
         )}
@@ -225,10 +166,10 @@ export function ArtworkStructure() {
             const localY = Math.sin(angle) * outerRy;
             const x = cx + localX * Math.cos(radians) - localY * Math.sin(radians);
             const y = cy + localX * Math.sin(radians) + localY * Math.cos(radians);
-            return <line key={`spoke-${groupIndex}-${index}`} x1={cx} y1={cy} x2={x} y2={y} stroke="var(--cc-hairline)" strokeWidth="0.48" opacity="0.13" />;
+            return <line key={`spoke-${groupIndex}-${index}`} x1={cx} y1={cy} x2={x} y2={y} stroke="var(--cc-hairline)" strokeWidth="0.62" opacity="0.22" />;
           });
         })}
-        <path d="M 1032 40 C 1096 158, 1064 224, 1008 316 C 957 399, 1006 468, 1108 526 C 1167 560, 1154 636, 1094 724" stroke="var(--cc-hairline-deep)" strokeWidth="0.72" opacity="0.28" />
+        <path d="M 1032 40 C 1096 158, 1064 224, 1008 316 C 957 399, 1006 468, 1108 526 C 1167 560, 1154 636, 1094 724" stroke="var(--cc-hairline-deep)" strokeWidth="0.9" opacity="0.44" />
         <path d="M 873 277 C 947 208, 1198 201, 1310 277" stroke="var(--cc-olive)" strokeWidth="0.58" opacity="0.34" />
         <path d="M 904 663 C 1000 716, 1190 719, 1292 654" stroke="var(--cc-hairline-deep)" strokeWidth="0.5" opacity="0.22" />
         {networkEdges.map(([startIndex, endIndex], index) => {
@@ -242,8 +183,8 @@ export function ArtworkStructure() {
               x2={end[0]}
               y2={end[1]}
               stroke="var(--cc-hairline-deep)"
-              strokeWidth="0.66"
-              opacity={0.14 + (index % 3) * 0.02}
+              strokeWidth="0.78"
+              opacity={0.23 + (index % 3) * 0.025}
             />
           );
         })}

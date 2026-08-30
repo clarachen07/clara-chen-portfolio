@@ -1,4 +1,8 @@
+import "./original-home.css";
 import { ArtworkBack, ArtworkStructure } from "./components/home/HomeArtwork";
+import { ProjectsLanding } from "./components/ProjectsLanding";
+import { SiteFooter } from "./components/SiteFooter";
+import { SiteHeader } from "./components/SiteHeader";
 import { homeContent } from "./home-content";
 
 function HeroName() {
@@ -11,45 +15,29 @@ function HeroName() {
   );
 }
 
-function EditorialLines() {
-  return (
-    <>
-      <span className="cc-header-rule" aria-hidden="true" />
-      <div className="cc-left-rail" aria-hidden="true">
-        <span className="cc-left-rail-line" />
-      </div>
-    </>
-  );
-}
-
-function SocialLinks() {
-  return (
-    <nav className="cc-socials" aria-label="Social and contact links">
-      {homeContent.socials.map((item) => (
-        <a
-          key={item.label}
-          href={item.href}
-          {...(item.external
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {})}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
-  );
+function HomeTagline() {
+  return <p className="cc-home-tagline">A lifelong learner and explorer.</p>;
 }
 
 export default function Home() {
   return (
-    <main className="cc-home-shell">
-      <section className="cc-home-artboard" id="home" aria-labelledby="home-title">
-        <ArtworkBack />
-        <HeroName />
-        <ArtworkStructure />
-        <EditorialLines />
-        <SocialLinks />
-      </section>
+    <main className="home-page">
+      <SiteHeader projectsHref="#projects-overview" />
+      <div className="cc-home-shell">
+        <section
+          className="cc-home-artboard"
+          id="home"
+          aria-labelledby="home-title"
+          data-nav-theme="light"
+        >
+          <ArtworkBack />
+          <HeroName />
+          <ArtworkStructure />
+          <HomeTagline />
+        </section>
+      </div>
+      <ProjectsLanding embedded />
+      <SiteFooter />
     </main>
   );
 }

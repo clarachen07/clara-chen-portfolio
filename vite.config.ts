@@ -12,8 +12,16 @@ const { d1, r2 } = hostingConfig;
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
 const localBindingConfig = {
+  name: "clara-chen-homepage",
   main: "./worker/index.ts",
+  compatibility_date: "2026-05-22",
   compatibility_flags: ["nodejs_compat"],
+  routes: [
+    {
+      pattern: "clarachen.dev",
+      custom_domain: true,
+    },
+  ],
   d1_databases: d1
     ? [
         {

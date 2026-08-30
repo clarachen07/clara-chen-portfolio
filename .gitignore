@@ -40,3 +40,12 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# local design handoff and assistant workspace state
+/.workbuddy/
+/clara-homepage-handoff/
+
+# local-only visual comparison helpers
+/scripts/capture-screenshots.py
+/scripts/diff-against-reference.py
+/scripts/measure-regions.py
