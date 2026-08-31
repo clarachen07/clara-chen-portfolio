@@ -14,7 +14,6 @@ Purpose: maintain Clara Chen's responsive English portfolio and résumé at `htt
 - Vinext/Vite, React, TypeScript, and a Next-compatible App Router surface.
 - Production is Cloudflare Worker `clara-chen-homepage` on `clarachen.dev`.
 - Deploy only from `dist/server/wrangler.json` after a successful build and dry run.
-- `.openai/hosting.json` is unresolved legacy Sites wiring, not the production target.
 
 ## Source conventions
 
@@ -29,4 +28,4 @@ Purpose: maintain Clara Chen's responsive English portfolio and résumé at `htt
 ## Current status
 
 - The current homepage, six-project archive, résumé, mobile layout, tests, GitHub main branch, and Cloudflare production site are aligned.
-- Next decisions: provide the final résumé PDF and choose whether to remove the legacy Sites wiring and superseded visual-QA assets.
+- Next step: provide the final résumé PDF when it is ready; keep the PDF action hidden until its public URL is configured.

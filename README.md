@@ -46,7 +46,7 @@ npm test
 
 ## Deployment
 
-Production uses Cloudflare, not the legacy Sites project identifier stored in `.openai/hosting.json`.
+Production uses Cloudflare Workers.
 
 ```bash
 npm run build
@@ -54,4 +54,4 @@ npx wrangler deploy --dry-run --config dist/server/wrangler.json
 npx wrangler deploy --config dist/server/wrangler.json
 ```
 
-The `.openai/hosting.json` file and its Vite integration are retained only as unresolved legacy scaffold wiring; do not treat that project ID as a valid deployment target. See [DESIGN.md](./DESIGN.md) for the current visual contract.
+See [DESIGN.md](./DESIGN.md) for the current visual contract.
