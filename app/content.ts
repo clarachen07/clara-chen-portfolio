@@ -283,7 +283,7 @@ export const resumeData: ResumeData = {
   links: [
     { label: "Email", href: "mailto:clarachen07@foxmail.com" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/clara-chen-1b11a2419/" },
-    { label: "GitHub", href: "https://github.com/cc1107yss" },
+    { label: "GitHub", href: "https://github.com/clarachen07" },
   ],
   pdfUrl: null,
 };

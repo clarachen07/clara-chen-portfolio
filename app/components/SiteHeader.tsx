@@ -89,7 +89,7 @@ export function SiteHeader({
             <Link key={item.label} href={item.href}>{item.label}</Link>
           );
         })}
-        <a href="https://github.com/cc1107yss" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/clarachen07" target="_blank" rel="noopener noreferrer">
           GitHub <span aria-hidden="true">↗</span>
         </a>
       </nav>
@@ -137,7 +137,7 @@ export function SiteHeader({
           );
         })}
         <a
-          href="https://github.com/cc1107yss"
+          href="https://github.com/clarachen07"
           target="_blank"
           rel="noopener noreferrer"
           tabIndex={menuOpen ? 0 : -1}
