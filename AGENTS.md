@@ -18,14 +18,17 @@ Purpose: maintain Clara Chen's responsive English portfolio and résumé at `htt
 ## Source conventions
 
 - `app/content.ts` is the typed source of truth for projects and résumé data.
-- `app/page.tsx` joins the homepage hero to `ProjectsLanding`; `/projects` reuses it.
+- `app/page.tsx` joins the original homepage hero to `ProjectsLanding`; `/projects` reuses the original project experience.
 - Valid legacy `/projects/:slug` routes redirect to `/projects#slug`; unknown slugs are 404.
-- Keep hero SVG output deterministic; do not introduce runtime randomness.
+- Keep hero SVG and Mars star output deterministic; do not introduce runtime randomness.
+- Three.js is used only by the Mars footer and must not load on `/resume`.
+- Preserve Mars pause, offscreen/background suspension, GPU cleanup, keyboard/touch controls, and static fallback.
 - Preserve accessible focus, 44px touch targets, reduced-motion support, and responsive reading sizes.
 - Use framework links internally; external links must open safely and show an external marker.
 - Do not expose a résumé PDF button while `resumeData.pdfUrl` is `null`.
 
 ## Current status
 
-- The current homepage, six-project archive, résumé, mobile layout, tests, GitHub main branch, and Cloudflare production site are aligned.
+- The original homepage, six-project archive, résumé, and navigation are restored locally; only the former black footer is replaced by the interactive Mars scene.
+- Production and GitHub main have not been updated. Asset attribution is in `public/scenes/CREDITS.txt`.
 - Next step: provide the final résumé PDF when it is ready; keep the PDF action hidden until its public URL is configured.

@@ -78,6 +78,9 @@ test("homepage joins the editorial artboard to the complete projects landing", a
   assert.doesNotMatch(html, /Clara Chen · Beijing/);
   assert.doesNotMatch(html, />Email</i);
   assert.doesNotMatch(html, /© 2026/);
+  assert.match(html, /To understand/);
+  assert.match(html, /To build something/);
+  assert.match(html, /class="site-footer site-footer--mars"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.match(html, /property="og:image" content="https:\/\/clarachen.dev\/og.png"/);
   assert.doesNotMatch(html, /codex-preview|figmacapture|html-to-design\/capture\.js/i);
@@ -121,7 +124,8 @@ test("projects consolidates six text-only cards on one page", async () => {
   assert.match(html, /SiC Infrared Thickness Inversion/);
   assert.match(html, /Limit of RLVR Reproduction/);
   assert.match(html, /Docs as Code/);
-  assert.doesNotMatch(html, /<img\b/i);
+  assert.doesNotMatch(html, /src="\/projects\//i);
+  assert.match(html, /class="site-footer site-footer--mars"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/i);
 });
 
@@ -138,6 +142,10 @@ test("ships responsive, deterministic, accessible visual layers", async () => {
     access(new URL("../public/projects/llm-post-training-results.svg", import.meta.url)),
     access(new URL("../public/projects/typhoon-representative-fields.png", import.meta.url)),
     access(new URL("../public/resume/clara-portrait.jpg", import.meta.url)),
+    access(new URL("../public/scenes/mars-poster.webp", import.meta.url)),
+    access(new URL("../public/scenes/mars-mobile.webp", import.meta.url)),
+    access(new URL("../public/scenes/mars-8k.webp", import.meta.url)),
+    access(new URL("../public/scenes/mars-2k.webp", import.meta.url)),
   ]);
 
   assert.match(css, /:focus-visible/);

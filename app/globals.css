@@ -1309,3 +1309,127 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The original site ends with one new, self-contained Mars horizon. */
+.site-footer.site-footer--mars {
+  position: relative;
+  min-height: 820px;
+  height: 100svh;
+  max-height: 1250px;
+  display: block;
+  overflow: clip;
+  padding: 0;
+  color: #eeeae0;
+  background: #04070b;
+}
+
+.mars-scene,
+.mars-poster,
+.mars-mount {
+  position: absolute;
+  inset: 0;
+}
+
+.mars-scene { isolation: isolate; }
+.mars-poster { display: block; pointer-events: none; transition: opacity 600ms ease; }
+.mars-poster img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.mars-mount { opacity: 0; transition: opacity 700ms ease; }
+.mars-scene[data-state="ready"] .mars-poster { opacity: 0; }
+.mars-scene[data-state="ready"] .mars-mount { opacity: 1; }
+.mars-mount canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+.mars-mount canvas:active { cursor: grabbing; }
+.mars-mount:focus-visible { outline: 1px solid #b9cbd6; outline-offset: -3px; }
+
+.mars-copy {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  max-width: 61%;
+  padding: clamp(102px, 11vh, 165px) 0 0 clamp(24px, 7vw, 112px);
+  pointer-events: none;
+}
+
+.mars-copy h2 {
+  margin: 0;
+  padding-top: 50px;
+  color: #eeeae0;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 5.5vw, 86px);
+  font-weight: 400;
+  letter-spacing: -0.052em;
+  line-height: 1.12;
+}
+
+.mars-copy h2 > span {
+  display: inline-block;
+  margin-top: 18px;
+  color: #b9c3c9;
+  font-family: "Cormorant Garamond", var(--font-display);
+  font-weight: 500;
+}
+
+.mars-controls {
+  position: absolute;
+  z-index: 3;
+  right: clamp(24px, 5vw, 88px);
+  bottom: 77px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #a2afb7;
+}
+
+.mars-controls[hidden] { display: none; }
+
+.mars-controls > span {
+  width: 76px;
+  margin-right: 20px;
+}
+
+.mars-controls button {
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font-size: 17px;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.mars-controls button:hover {
+  color: #faf4e4;
+  background: rgba(230, 240, 247, 0.08);
+}
+
+.mars-scene-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .site-footer.site-footer--mars {
+    min-height: 900px;
+    height: 112svh;
+    max-height: 1100px;
+  }
+
+  .mars-copy {
+    max-width: 100%;
+    padding: 146px 24px 0;
+  }
+
+  .mars-copy h2 { padding-top: 39px; font-size: clamp(42px, 12vw, 57px); line-height: 1.12; }
+  .mars-copy h2 > span { margin-top: 12px; }
+  .mars-controls { right: 20px; bottom: 57px; }
+  .mars-controls > span { margin-right: 5px; }
+}

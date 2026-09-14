@@ -1,0 +1,21 @@
+CLARA CHEN — SCENE MATERIALS
+
+Mars color texture
+Author: Solar System Scope / INOVE
+Based on NASA elevation and imagery data; an artistic planetary visualization, not a scientific measurement surface.
+Source: https://edu.solarsystemscope.com/textures/
+Original 8192 x 4096 JPEG retrieved from the Wikimedia Commons mirror:
+https://commons.wikimedia.org/wiki/File:Solarsystemscope_texture_8k_mars.jpg
+License: Creative Commons Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/
+Changes: saturation reduced to 72%; WebP compression; 2048 x 1024 mobile derivative.
+
+Mars broad-scale relief
+NASA / USGS Astrogeology: Mars MGS MOLA DEM 463m, Smith et al. (2003).
+https://astrogeology.usgs.gov/search/map/mars_mgs_mola_dem_463m
+Source: USGS's 1024 x 501 grayscale global overview, resampled to 1024 x 512 for spherical mapping and converted to lossless WebP.
+https://astrogeology.usgs.gov/ckan/dataset/83c20dbd-e2b3-4e5b-b019-f13d4fdffa38/resource/57f84b24-d56c-42dd-a34d-cf9d61a82d2c/download/mars_mgs_mola_dem_mosaic_global_1024.jpg
+This overview supplies subtle large-scale relief; fine visual detail comes from the 8K color map. It is not a full-resolution 463m elevation texture. The globe is a visual interpretation, not a calibrated geographic tool.
+
+Stars: deterministic seeded point fields implemented for this site.
+The static Mars fallback inherits the color texture attribution and CC BY 4.0 license above.
