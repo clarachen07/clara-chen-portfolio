@@ -23,28 +23,39 @@ export function SiteHeader({
   ] as const;
 
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-nav-theme]"),
-    );
+    let frame = 0;
 
-    if (!sections.length) return;
+    function syncTheme() {
+      frame = 0;
+      const sampleY = (header.current?.getBoundingClientRect().bottom ?? 0) + 1;
+      const sections = document.querySelectorAll<HTMLElement>("[data-nav-theme]");
+      let nextTheme: "light" | "dark" | "sand" = "light";
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible) {
-          const nextTheme = visible.target.getAttribute("data-nav-theme");
-          setTheme(nextTheme === "dark" || nextTheme === "sand" ? nextTheme : "light");
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= sampleY && rect.bottom > sampleY) {
+          const value = section.getAttribute("data-nav-theme");
+          nextTheme = value === "dark" || value === "sand" ? value : "light";
         }
-      },
-      { rootMargin: "-8% 0px -82% 0px", threshold: [0, 0.1, 0.5] },
-    );
+      }
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      setTheme(nextTheme);
+    }
+
+    function scheduleTheme() {
+      if (!frame) frame = requestAnimationFrame(syncTheme);
+    }
+
+    syncTheme();
+    window.addEventListener("scroll", scheduleTheme, { passive: true });
+    window.addEventListener("resize", scheduleTheme);
+    window.addEventListener("pageshow", scheduleTheme);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleTheme);
+      window.removeEventListener("resize", scheduleTheme);
+      window.removeEventListener("pageshow", scheduleTheme);
+    };
   }, []);
 
   useEffect(() => {
