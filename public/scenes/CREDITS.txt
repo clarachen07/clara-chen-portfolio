@@ -19,3 +19,34 @@ This overview supplies subtle large-scale relief; fine visual detail comes from 
 
 Stars: deterministic seeded point fields implemented for this site.
 The static Mars fallback inherits the color texture attribution and CC BY 4.0 license above.
+
+PROJECTS — WARM MARTIAN TERRAIN
+
+Ground: Sandy Gravel 02
+Author: Dario Barresi / Poly Haven
+Source: https://polyhaven.com/a/sandy_gravel_02
+Download catalog: https://api.polyhaven.com/files/sandy_gravel_02
+License: CC0 1.0 Universal — https://creativecommons.org/publicdomain/zero/1.0/
+Source is a terrestrial scan with a 2.53 m square repeat, not imagery of a measured Martian site.
+Local derivatives in terrain/: ground-color-{4k,2k}.webp, ground-normal-{4k,2k}.webp,
+ground-arm-{2k,1k}.webp, and ground-height.webp (512 x 512).
+Changes: color saturation reduced to 72%, brightness raised 8%, small channel adjustments toward warm sand;
+OpenGL normal map retained, AO/roughness/metalness retained in packed RGB channels, displacement reduced to 512 pixels;
+WebP compression and resolution reduction. Color maps are sRGB; normal, ARM and height maps are linear data.
+
+Rocks: Rock 07
+Author: Jenelle van Heerden / Poly Haven
+Source: https://polyhaven.com/a/rock_07
+Download catalog: https://api.polyhaven.com/files/rock_07
+License: CC0 1.0 Universal — https://creativecommons.org/publicdomain/zero/1.0/
+Local derivatives: terrain/rock.glb, terrain/pebble.glb, rock-color.webp, rock-normal.webp, rock-arm.webp.
+Changes: scanned glTF mesh reduced from 14,844 triangles to approximately 2,800 with Three.js / meshoptimizer;
+The pebble variant is independently reduced from the same source scan to approximately 200 triangles.
+Both models retain UVs and source normals; source vertex colors removed; shared 1K PBR maps converted to WebP;
+rock color saturation reduced to 65%, brightness raised 4%, with a slight warm earth color adjustment.
+The GLB uses EXT_texture_webp with separately hosted textures. ARM channels are ambient occlusion, roughness, metalness.
+
+Both scans form an artistic, warm earth-colored Mars landscape. Their placement, ground undulations and distant ridges
+are deterministic site-authored geometry, not a reconstruction of a named landing site.
+Terrain poster images are rendered from the same local scene and inherit these CC0 asset sources.
+Reproduction: node scripts/prepare-terrain-assets.mjs (requires the installed project's Three.js and Sharp).

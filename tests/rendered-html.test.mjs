@@ -26,7 +26,7 @@ async function render(pathname = "/") {
 test("server-renders the complete portfolio route map", async () => {
   const expected = [
     ["/", /aria-label="Clara Chen"/i],
-    ["/projects", /Projects built to make difficult systems legible/i],
+    ["/projects", /I turn questions into models, tools, and experiences/i],
     ["/resume", /Creator Operations Intern/i],
   ];
 
@@ -71,7 +71,7 @@ test("homepage joins the editorial artboard to the complete projects landing", a
   assert.doesNotMatch(html, />Contact</i);
   assert.match(html, /GitHub/);
   assert.match(html, /href="#projects-overview"/);
-  assert.match(html, /<h2>Projects built to make difficult systems legible\.<\/h2>/i);
+  assert.match(html, /<h2>I turn questions into models, tools, and experiences\.<\/h2>/i);
   assert.equal((html.match(/class="reveal text-project-card"/g) ?? []).length, 6);
   assert.match(html, /href="\/resume"/);
   assert.doesNotMatch(html, /Start a conversation/i);
@@ -127,6 +127,28 @@ test("projects consolidates six text-only cards on one page", async () => {
   assert.doesNotMatch(html, /src="\/projects\//i);
   assert.match(html, /class="site-footer site-footer--mars"/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/i);
+});
+
+test("project terrain progressively enhances server-rendered content and leaves resume independent", async () => {
+  for (const pathname of ["/", "/projects"]) {
+    const html = await (await render(pathname)).text();
+    assert.match(html, /class="projects-terrain"[^>]*data-nav-theme="sand"/);
+    assert.match(html, /class="terrain-poster"/);
+    assert.match(html, /src="\/scenes\/terrain\/poster-desktop\.webp"/);
+    assert.match(html, /srcSet="\/scenes\/terrain\/poster-mobile\.webp"/i);
+    assert.match(html, /class="terrain-controls" hidden=""/);
+    assert.equal((html.match(/class="reveal text-project-card"/g) ?? []).length, 6);
+  }
+
+  const resume = await (await render("/resume")).text();
+  assert.doesNotMatch(resume, /terrain-(?:mount|poster|runtime)|\/scenes\/terrain\//);
+  for (const asset of [
+    "poster-desktop.webp", "poster-mobile.webp", "ground-color-4k.webp", "ground-color-2k.webp",
+    "ground-normal-4k.webp", "ground-normal-2k.webp", "ground-arm-2k.webp", "ground-arm-1k.webp",
+    "ground-height.webp", "rock.glb", "pebble.glb", "rock-color.webp", "rock-normal.webp", "rock-arm.webp",
+  ]) {
+    await access(new URL(`../public/scenes/terrain/${asset}`, import.meta.url));
+  }
 });
 
 test("ships responsive, deterministic, accessible visual layers", async () => {

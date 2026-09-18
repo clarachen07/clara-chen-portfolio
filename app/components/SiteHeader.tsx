@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const linkedInUrl = "https://www.linkedin.com/in/clara-chen-1b11a2419/";
 
@@ -13,7 +13,9 @@ export function SiteHeader({
   projectsHref?: string;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const header = useRef<HTMLElement>(null);
+  const menuToggle = useRef<HTMLButtonElement>(null);
+  const [theme, setTheme] = useState<"light" | "dark" | "sand">("light");
   const navigationItems = [
     { label: "Projects", href: projectsHref, external: false },
     { label: "Resume", href: "/resume", external: false },
@@ -34,11 +36,8 @@ export function SiteHeader({
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
         if (visible) {
-          setTheme(
-            visible.target.getAttribute("data-nav-theme") === "dark"
-              ? "dark"
-              : "light",
-          );
+          const nextTheme = visible.target.getAttribute("data-nav-theme");
+          setTheme(nextTheme === "dark" || nextTheme === "sand" ? nextTheme : "light");
         }
       },
       { rootMargin: "-8% 0px -82% 0px", threshold: [0, 0.1, 0.5] },
@@ -50,7 +49,25 @@ export function SiteHeader({
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (!menuOpen) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMenuOpen(false);
+        menuToggle.current?.focus({ preventScroll: true });
+      }
+      if (event.key === "Tab") {
+        const items = Array.from(header.current?.querySelectorAll<HTMLElement>("a[href], button") ?? [])
+          .filter((item) => item.tabIndex >= 0 && item.getClientRects().length > 0);
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && (document.activeElement === first || !header.current?.contains(document.activeElement))) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && (document.activeElement === last || !header.current?.contains(document.activeElement))) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
     }
 
     window.addEventListener("keydown", handleKeyDown);
@@ -61,12 +78,22 @@ export function SiteHeader({
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 900px)");
+    const closeOnDesktop = () => {
+      if (!mobile.matches) setMenuOpen(false);
+    };
+    mobile.addEventListener("change", closeOnDesktop);
+    return () => mobile.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   return (
     <header
+      ref={header}
       className={`site-header site-header--${theme}${menuOpen ? " is-open" : ""}`}
     >
       {showBrand ? (
-        <Link className="site-brand" href="/" aria-label="Clara Chen — home">
+        <Link className="site-brand" href="/" aria-label="Clara Chen — home" onClick={() => setMenuOpen(false)}>
           <span className="site-brand-name">Clara Chen</span>
         </Link>
       ) : (
@@ -95,6 +122,7 @@ export function SiteHeader({
       </nav>
 
       <button
+        ref={menuToggle}
         className="site-menu-toggle"
         type="button"
         aria-expanded={menuOpen}
@@ -109,6 +137,7 @@ export function SiteHeader({
         id="mobile-navigation"
         aria-label="Mobile navigation"
         aria-hidden={!menuOpen}
+        inert={!menuOpen}
       >
         {navigationItems.map((item) => {
           const sharedProps = {

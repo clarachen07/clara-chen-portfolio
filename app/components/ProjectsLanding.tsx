@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { MarsTerrainSection } from "./scenes/MarsTerrainSection";
 import { otherProjects, projects } from "../content";
 
 const projectCards = [
@@ -25,20 +26,20 @@ const projectCards = [
 ] as const;
 
 export function ProjectsLanding({ embedded = false }: { embedded?: boolean }) {
-  const title = "Projects built to make difficult systems legible.";
+  const title = "I turn questions into models, tools, and experiences.";
 
   return (
-    <>
+    <MarsTerrainSection>
       <section
         className="page-hero projects-hero"
         id="projects-overview"
-        data-nav-theme="light"
+        data-nav-theme="sand"
       >
         <p className="page-eyebrow">Project archive · 2025—2026</p>
         {embedded ? <h2>{title}</h2> : <h1>{title}</h1>}
       </section>
 
-      <section className="projects-text-archive" data-nav-theme="light" aria-label="Selected work">
+      <section className="projects-text-archive" data-nav-theme="sand" aria-label="Selected work">
         <div className="projects-text-heading">
           <p>Selected work</p>
         </div>
@@ -64,6 +65,6 @@ export function ProjectsLanding({ embedded = false }: { embedded?: boolean }) {
           ))}
         </div>
       </section>
-    </>
+    </MarsTerrainSection>
   );
 }
