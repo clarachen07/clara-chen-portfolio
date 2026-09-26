@@ -86,31 +86,45 @@ test("homepage joins the editorial artboard to the complete projects landing", a
   assert.doesNotMatch(html, /codex-preview|figmacapture|html-to-design\/capture\.js/i);
 });
 
-test("resume hides the unavailable PDF and contains only verified anchors", async () => {
+test("resume renders its curated entries in order with valid links and no unavailable PDF", async () => {
   const html = await (await render("/resume")).text();
   assert.match(html, /class="academic-resume-shell"/);
   assert.match(html, /aria-label="Résumé sections"/);
   assert.match(html, /class="academic-resume-brand">Clara Chen/);
   assert.match(html, /href="\/">Home ↗<\/a>/);
   assert.doesNotMatch(html, /All work/i);
-  assert.match(html, /Research interests/);
-  assert.match(html, /Research &amp; projects/);
-  assert.match(html, /Large Language Models · AI Applications · Post-Training · AI Agents · Engineering/);
-  assert.match(html, /I am a mathematics undergraduate who is interested in LLM alignment, reasoning, mathematical modeling, and AI applications\./);
-  assert.doesNotMatch(html, /<h2 id="current-title">Current<\/h2>/);
-  assert.doesNotMatch(html, />Now<\/p>/);
-  assert.doesNotMatch(html, /Coursework/);
-  assert.doesNotMatch(html, /I care about making technical systems rigorous enough to inspect/i);
+  assert.match(html, /<title>Résumé — Clara Chen<\/title>/);
+  assert.match(html, /LLM Reasoning &amp; Post-Training \| AI4Finance \| Quant \| Agent/);
+  assert.match(html, /Selected coursework/);
+  assert.doesNotMatch(html, /Research interests|Memory Album DIY|llm-post-training-results\.svg/);
+  const sections = [...html.matchAll(/<section[^>]+id="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(sections, ["about", "education", "experience", "projects", "skills"]);
+  const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
+  for (const [, target] of html.matchAll(/href="#([^"]+)"/g)) {
+    assert.ok(ids.has(target), `Missing anchor: ${target}`);
+  }
+  assert.equal((html.match(/class="academic-project"/g) ?? []).length, 3);
+  const projectTitles = ["LLM Post-Training &amp; Statistical Evaluation", "Typhoon Extreme-Rainfall Modeling", "Semiconductor Thickness Estimation"];
+  let previousIndex = -1;
+  for (const title of projectTitles) {
+    const index = html.indexOf(`<h3>${title}</h3>`);
+    assert.ok(index > previousIndex, `Missing or out-of-order project: ${title}`);
+    previousIndex = index;
+  }
+  for (const repo of ["llm-post-training-mechanism", "limit-of-rlvr-qwen7b-math500-reproduction", "typhoon_rainfall_project", "cumcm-2025-sic-infrared-thickness"]) {
+    assert.ok(html.includes(`href="https://github.com/cc1107yss/${repo}" target="_blank" rel="noopener noreferrer"`));
+  }
+  assert.doesNotMatch(html, /href="\/projects#/);
   assert.match(html, /Beijing Normal University/);
   assert.match(html, /Jun 2026 — Present/);
   assert.match(html, /Beijing Yongyue Intelligent Technology Co\., Ltd\. \(Loopit\)/);
   assert.match(html, /Jun 2026 — Aug 2026/);
   assert.match(html, /Sep 2024 — Jun 2028/);
-  assert.match(html, /17,000\+ member community/);
+  assert.match(html, /17,000\+ member Discord community/);
   assert.match(html, />clarachen07@foxmail\.com<\/a>/);
   assert.match(html, /src="\/resume\/clara-portrait\.jpg"/);
   assert.match(html, /alt="Portrait illustration of Clara Chen"/);
-  assert.doesNotMatch(html, /Download PDF/);
+  assert.doesNotMatch(html, /class="academic-pdf-link"|Download (?:PDF|CV)|href="[^"]+\.pdf"/);
 });
 
 test("projects consolidates six text-only cards on one page", async () => {

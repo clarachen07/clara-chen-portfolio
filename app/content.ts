@@ -28,22 +28,31 @@ export type Project = {
 export type ResumeData = {
   headline: string;
   summary: string;
+  contactLabel: string;
   experience: readonly {
     role: string;
     organization: string;
     type: string;
     dates: string;
-    summary: string;
-    impact: string;
+    bullets: readonly string[];
     stack: readonly string[];
   }[];
   education: readonly {
     institution: string;
     degree: string;
     dates: string;
+    coursework: readonly string[];
     honors: readonly string[];
   }[];
-  selectedProjects: readonly string[];
+  selectedProjects: readonly {
+    slug: string;
+    title: string;
+    discipline: string;
+    year: string;
+    bullets: readonly string[];
+    stack: readonly string[];
+    links?: readonly { label: string; href: string }[];
+  }[];
   skills: readonly { category: string; items: readonly string[] }[];
   links: readonly { label: string; href: string }[];
   pdfUrl: string | null;
@@ -226,58 +235,101 @@ export const otherProjects = [
 ] as const;
 
 export const resumeData: ResumeData = {
-  headline:
-    "Mathematics Undergraduate · Large Language Models · AI Applications · Post-Training · AI Agents · Engineering",
+  headline: "LLM Reasoning & Post-Training | AI4Finance | Quant | Agent",
   summary:
-    "I am a mathematics undergraduate who is interested in LLM alignment, reasoning, mathematical modeling, and AI applications.",
+    "Mathematics and Applied Mathematics undergraduate with interests in quantitative research and machine learning. My academic and project experience includes LLM research, quantitative finance, and data analysis, with a focus on applying mathematical and computational methods to real-world problems.",
+  contactLabel: "Get in touch about internships",
   experience: [
     {
       role: "Product Manager, AI Platform",
       organization: "Zen Trading",
-      type: "AI application engineering · Cost operations",
+      type: "Financial data pipelines · Risk audits · Research automation",
       dates: "Jun 2026 — Present",
-      summary:
-        "Led the Zen Content Hub from requirements through deployment, connecting Slack commands, LLM-assisted research and writing, and downstream publishing drafts. Audited cost-data and portfolio-risk pipelines, then added persistence, recovery, and regression coverage.",
-      impact:
-        "Published 100+ pieces, added 200+ followers, reduced production time by 60%+, and kept the system stable for 40+ days.",
-      stack: ["Node.js", "Python", "FastAPI", "SQLite", "Slack Bolt", "OpenRouter", "GitHub Actions", "Linux"],
+      bullets: [
+        "Audited maximum-drawdown calculations, integrated read-only Alpaca Paper account data, and corrected cost-data inconsistencies with regression coverage.",
+        "Built Zen Content Hub to automate research and publishing workflows, with persistent queues, deduplication, and failure recovery.",
+        "Reduced content production time by 70%+; supported 200+ published pieces and 50+ days of stable operation.",
+      ],
+      stack: ["Python", "Node.js", "FastAPI", "SQLite"],
     },
     {
       role: "Creator Operations Intern",
       organization: "Beijing Yongyue Intelligent Technology Co., Ltd. (Loopit)",
-      type: "Creator growth · Operations engineering",
+      type: "Data collection · Attribution · Operations engineering",
       dates: "Jun 2026 — Aug 2026",
-      summary:
-        "Built a read-only Discord-to-Loopit collection service covering historical backfills and live monitoring. The system extracts work links from messages, embeds, and attachments, records traceable creator metadata in SQLite, and exports deduplicated JSON and CSV for creator operations.",
-      impact:
-        "Supported a 17,000+ member community, maintained relationships with 500+ creators, and contributed to 25%+ community activity and 90%+ creator retention.",
-      stack: ["TypeScript", "Node.js", "Express", "Discord.js", "SQLite", "Vitest", "JSON API", "CSV"],
+      bullets: [
+        "Built a read-only collection service for a 17,000+ member Discord community, covering historical backfills and live monitoring.",
+        "Implemented idempotent storage and source tracing; linked authors to in-app creators and delivered a dashboard, JSON API, and deduplicated CSV exports.",
+      ],
+      stack: ["TypeScript", "Discord.js", "SQLite", "Vitest"],
     },
   ],
   education: [
     {
       institution: "Beijing Normal University",
       degree: "B.S. candidate, Mathematics and Applied Mathematics",
-      dates: "Sep 2024 — Jun 2028",
+      dates: "Sep 2024 — Jun 2028 (Expected)",
+      coursework: ["Probability", "Mathematical Statistics", "Mathematical Modeling", "Mathematical Analysis", "Advanced Algebra", "Real Analysis", "Functional Analysis"],
       honors: [
-        "MCM/ICM Meritorious Winner (Second Prize)",
+        "MCM/ICM Meritorious Winner",
+        "Second Prize, Beijing Normal University Mathematical Modeling Competition",
         "Second Prize, 2024 Summer Field Research, Tsinghua University Institute for Agriculture and Rural Development",
       ],
     },
   ],
-  selectedProjects: projects.map((project) => project.slug),
+  selectedProjects: [
+    {
+      slug: "llm-evaluation",
+      title: "LLM Post-Training & Statistical Evaluation",
+      discipline: "Experimental design · Statistical inference · Reproducibility",
+      year: "2026",
+      bullets: [
+        "Built reproducible post-training evaluations with fixed experimental settings and paired bootstrap analysis; audited 128,000 Qwen generations.",
+        "SimpleRL reached 77.93% pass@1 versus 61.39% for Base, but pass@128 was 3.20 percentage points lower (95% CI: −5.00 to −1.40), revealing a performance–coverage trade-off.",
+      ],
+      stack: ["Python", "PyTorch", "Transformers / PEFT", "vLLM"],
+      links: [
+        { label: "Post-training research", href: "https://github.com/cc1107yss/llm-post-training-mechanism" },
+        { label: "RLVR replication", href: "https://github.com/cc1107yss/limit-of-rlvr-qwen7b-math500-reproduction" },
+      ],
+    },
+    {
+      slug: "typhoon-modeling",
+      title: "Typhoon Extreme-Rainfall Modeling",
+      discipline: "Spatiotemporal data · Machine learning · Scenario analysis",
+      year: "2026",
+      bullets: [
+        "Combined storm tracks, rainfall grids, and terrain data; modeled rainfall structure with random forests and generated fields using analog retrieval, PCA, and quantile calibration.",
+        "Achieved test-set R² of 0.684 for centroid offset; reduced P95 error by 39.7% versus raw templates in pseudo-missing validation.",
+      ],
+      stack: ["Python", "NumPy / pandas", "scikit-learn", "Rasterio"],
+      links: [{ label: "Repository", href: "https://github.com/cc1107yss/typhoon_rainfall_project" }],
+    },
+    {
+      slug: "spectral-inversion",
+      title: "Semiconductor Thickness Estimation",
+      discipline: "CUMCM 2025 · Parameter estimation · Signal processing",
+      year: "2025",
+      bullets: [
+        "Modeled SiC and Si infrared reflectance using complex dielectric functions and Fabry–Pérot interference to estimate epitaxial-layer thickness.",
+        "Cross-checked nonlinear least-squares estimates against fringe-spacing analysis; delivered runnable MATLAB scripts and a complete competition paper.",
+      ],
+      stack: ["MATLAB"],
+      links: [{ label: "Repository", href: "https://github.com/cc1107yss/cumcm-2025-sic-infrared-thickness" }],
+    },
+  ],
   skills: [
     {
-      category: "Research",
-      items: ["LLM post-training", "Model evaluation", "Mathematical modeling", "Statistical analysis"],
+      category: "Programming & Data",
+      items: ["Python", "C++", "MATLAB", "SQL"],
     },
     {
-      category: "Technical",
-      items: ["Python", "C++", "Node.js", "FastAPI", "SQLite", "Git / GitHub Actions", "Linux / systemd"],
+      category: "Statistics & Modeling",
+      items: ["NumPy / pandas", "scikit-learn", "Bootstrap", "PCA"],
     },
     {
-      category: "Systems & Operations",
-      items: ["API integration", "Data pipelines", "Testing and code audit", "Failure recovery", "Creator and community operations"],
+      category: "Research & Engineering Tools",
+      items: ["PyTorch / Transformers", "PEFT / vLLM", "Git / GitHub Actions", "Linux / systemd"],
     },
   ],
   links: [
