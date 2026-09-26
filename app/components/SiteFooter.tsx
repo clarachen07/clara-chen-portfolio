@@ -1,6 +1,8 @@
+import { messages, type Locale } from "../i18n";
 import { MarsScene } from "./scenes/SceneView";
 
-export function SiteFooter() {
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const t = messages[locale].footer;
   return (
     <footer
       className="site-footer site-footer--mars"
@@ -8,14 +10,14 @@ export function SiteFooter() {
       data-nav-theme="dark"
       aria-labelledby="mars-thought"
     >
-      <MarsScene />
+      <MarsScene locale={locale} />
       <div className="mars-copy">
         <h2 id="mars-thought">
-          To understand
-          <br />a little more.
+          {t.understand}
+          <br />{t.more}
           <span>
-            To build something
-            <br />that matters.
+            {t.build}
+            <br />{t.matters}
           </span>
         </h2>
       </div>

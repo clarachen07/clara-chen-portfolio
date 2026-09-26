@@ -21,7 +21,7 @@ Depth in the projects section comes from real terrain geometry, scanned soil and
 
 - Signature: Bodoni Moda 400 for the large Clara Chen name, project introduction, and footer statement.
 - Display/UI: Inter 600–700 with deliberate tracking and compact line-height.
-- Body: Inter 400–500 at a comfortable responsive size and generous line-height.
+- Body: Inter 400–500 at a comfortable responsive size and generous line-height. Chinese copy uses system CJK fallbacks, looser line-height, and restrained tracking while preserving the Latin name artwork.
 - Navigation stays visually consistent on every route. The homepage and internal pages share the Clara Chen wordmark and the Projects / Resume / LinkedIn / GitHub actions.
 
 ## Current page rhythm
@@ -31,6 +31,8 @@ Depth in the projects section comes from real terrain geometry, scanned soil and
 - Project archive: six text-first sand panels, two columns above 900px and one below; 32–40px gaps reveal the continuous terrain. No project screenshots.
 - Footer: full-width interactive Mars globe in deep space with the existing statement.
 - Résumé: formal white/gray editorial layout with a restrained portrait and tighter section spacing. It intentionally keeps its own academic tone.
+
+The `EN | 中文` control sits at the right of both header styles, remains beside the wordmark on mobile, and underlines the active language. Chinese pages use `/zh` while English URLs remain unchanged. Both languages share the same compositions and interactions.
 
 `/projects` begins directly with the shared project experience. The former individual case-study routes are compatibility redirects rather than separate page designs.
 

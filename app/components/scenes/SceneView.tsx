@@ -1,10 +1,13 @@
 "use client";
 
+import { messages, type Locale } from "../../i18n";
+
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { MarsAction, MarsController } from "./types";
 
-export function MarsScene() {
+export function MarsScene({ locale }: { locale: Locale }) {
+  const t = messages[locale].scenes;
   const mount = useRef<HTMLDivElement>(null);
   const controller = useRef<MarsController | null>(null);
   const [status, setStatus] = useState<"waiting" | "ready" | "fallback">("waiting");
@@ -85,7 +88,7 @@ export function MarsScene() {
         ref={mount}
         className="mars-mount"
         role="group"
-        aria-label="Mars in deep space. Drag to turn it. Use arrow keys to rotate, plus and minus to zoom, and Home to reset."
+        aria-label={t.marsInstructions}
         tabIndex={status === "ready" ? 0 : -1}
         onKeyDown={(event) => {
           const keys: Record<string, MarsAction> = {
@@ -108,7 +111,7 @@ export function MarsScene() {
         <span aria-hidden="true" />
         <button
           type="button"
-          aria-label={paused ? "Play Mars animation" : "Pause Mars animation"}
+          aria-label={paused ? t.marsPlay : t.marsPause}
           aria-pressed={paused}
           onClick={() => {
             const next = !paused;
@@ -118,12 +121,12 @@ export function MarsScene() {
         >
           {paused ? "▷" : "Ⅱ"}
         </button>
-        <button type="button" aria-label="Zoom in" onClick={() => action("closer")}>+</button>
-        <button type="button" aria-label="Zoom out" onClick={() => action("farther")}>−</button>
-        <button type="button" aria-label="Reset Mars view" onClick={() => action("reset")}>↺</button>
+        <button type="button" aria-label={t.zoomIn} onClick={() => action("closer")}>+</button>
+        <button type="button" aria-label={t.zoomOut} onClick={() => action("farther")}>−</button>
+        <button type="button" aria-label={t.marsReset} onClick={() => action("reset")}>↺</button>
       </div>
       <span className="mars-scene-status" role="status">
-        {status === "fallback" ? "Static Mars view shown. Interactive view is unavailable." : ""}
+        {status === "fallback" ? t.marsFallback : ""}
       </span>
     </div>
   );

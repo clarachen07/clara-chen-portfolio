@@ -1,24 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { LanguageSwitch } from "./LanguageSwitch";
+import { localizedPath, messages, type Locale, type PagePath } from "../i18n";
 import { useEffect, useRef, useState } from "react";
 
 const linkedInUrl = "https://www.linkedin.com/in/clara-chen-1b11a2419/";
 
 export function SiteHeader({
   showBrand = true,
-  projectsHref = "/projects",
+  projectsHref,
+  locale,
+  path,
 }: {
   showBrand?: boolean;
   projectsHref?: string;
+  locale: Locale;
+  path: PagePath;
 }) {
+  const t = messages[locale].navigation;
   const [menuOpen, setMenuOpen] = useState(false);
   const header = useRef<HTMLElement>(null);
   const menuToggle = useRef<HTMLButtonElement>(null);
   const [theme, setTheme] = useState<"light" | "dark" | "sand">("light");
   const navigationItems = [
-    { label: "Projects", href: projectsHref, external: false },
-    { label: "Resume", href: "/resume", external: false },
+    { label: t.projects, href: projectsHref ?? localizedPath(locale, "/projects"), external: false },
+    { label: t.resume, href: localizedPath(locale, "/resume"), external: false },
     { label: "LinkedIn", href: linkedInUrl, external: true },
   ] as const;
 
@@ -104,14 +111,14 @@ export function SiteHeader({
       className={`site-header site-header--${theme}${menuOpen ? " is-open" : ""}`}
     >
       {showBrand ? (
-        <Link className="site-brand" href="/" aria-label="Clara Chen — home" onClick={() => setMenuOpen(false)}>
+        <Link className="site-brand" href={localizedPath(locale)} aria-label={t.homeLabel} onClick={() => setMenuOpen(false)}>
           <span className="site-brand-name">Clara Chen</span>
         </Link>
       ) : (
         <span className="site-brand-spacer" aria-hidden="true" />
       )}
 
-      <nav className="site-nav" aria-label="Primary navigation">
+      <nav className="site-nav" aria-label={t.primary}>
         {navigationItems.map((item) => {
           if (item.external) {
             return (
@@ -132,6 +139,8 @@ export function SiteHeader({
         </a>
       </nav>
 
+      <LanguageSwitch locale={locale} path={path} />
+
       <button
         ref={menuToggle}
         className="site-menu-toggle"
@@ -140,13 +149,13 @@ export function SiteHeader({
         aria-controls="mobile-navigation"
         onClick={() => setMenuOpen((open) => !open)}
       >
-        <span>{menuOpen ? "Close" : "Menu"}</span>
+        <span>{menuOpen ? t.close : t.menu}</span>
       </button>
 
       <nav
         className="site-mobile-nav"
         id="mobile-navigation"
-        aria-label="Mobile navigation"
+        aria-label={t.mobile}
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >

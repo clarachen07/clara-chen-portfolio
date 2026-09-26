@@ -28,6 +28,9 @@ test("server-renders the complete portfolio route map", async () => {
     ["/", /aria-label="Clara Chen"/i],
     ["/projects", /I turn questions into models, tools, and experiences/i],
     ["/resume", /Creator Operations Intern/i],
+    ["/zh", /终身学习，不断探索/],
+    ["/zh/projects", /将问题转化为模型、工具与体验/],
+    ["/zh/resume", /创作者运营实习生/],
   ];
 
   for (const [pathname, content] of expected) {
@@ -42,13 +45,17 @@ test("server-renders the complete portfolio route map", async () => {
     "typhoon-rainfall",
     "memory-album-diy",
   ]) {
-    const response = await render(`/projects/${slug}`);
-    assert.ok([307, 308].includes(response.status), slug);
-    const location = new URL(response.headers.get("location"), "http://localhost");
-    assert.equal(`${location.pathname}${location.hash}`, `/projects#${slug}`);
+    for (const prefix of ["", "/zh"]) {
+      const response = await render(`${prefix}/projects/${slug}`);
+      assert.ok([307, 308].includes(response.status), `${prefix}/${slug}`);
+      const location = new URL(response.headers.get("location"), "http://localhost");
+      assert.equal(`${location.pathname}${location.hash}`, `${prefix}/projects#${slug}`);
+    }
   }
 
-  assert.equal((await render("/projects/not-a-project")).status, 404);
+  for (const path of ["/projects/not-a-project", "/zh/projects/not-a-project", "/zh/not-a-page"]) {
+    assert.equal((await render(path)).status, 404);
+  }
 });
 
 test("homepage joins the editorial artboard to the complete projects landing", async () => {
@@ -91,7 +98,7 @@ test("resume renders its curated entries in order with valid links and no unavai
   assert.match(html, /class="academic-resume-shell"/);
   assert.match(html, /aria-label="Résumé sections"/);
   assert.match(html, /class="academic-resume-brand">Clara Chen/);
-  assert.match(html, /href="\/">Home ↗<\/a>/);
+  assert.match(html, /href="\/">Home(?:<!-- -->)? ↗<\/a>/);
   assert.doesNotMatch(html, /All work/i);
   assert.match(html, /<title>Résumé — Clara Chen<\/title>/);
   assert.match(html, /LLM Reasoning &amp; Post-Training \| AI4Finance \| Quant \| Agent/);
@@ -144,7 +151,7 @@ test("projects consolidates six text-only cards on one page", async () => {
 });
 
 test("project terrain progressively enhances server-rendered content and leaves resume independent", async () => {
-  for (const pathname of ["/", "/projects"]) {
+  for (const pathname of ["/", "/projects", "/zh", "/zh/projects"]) {
     const html = await (await render(pathname)).text();
     assert.match(html, /class="projects-terrain"[^>]*data-nav-theme="sand"/);
     assert.match(html, /class="terrain-poster"/);
@@ -154,8 +161,10 @@ test("project terrain progressively enhances server-rendered content and leaves 
     assert.equal((html.match(/class="reveal text-project-card"/g) ?? []).length, 6);
   }
 
-  const resume = await (await render("/resume")).text();
-  assert.doesNotMatch(resume, /terrain-(?:mount|poster|runtime)|\/scenes\/terrain\//);
+  for (const path of ["/resume", "/zh/resume"]) {
+    const resume = await (await render(path)).text();
+    assert.doesNotMatch(resume, /terrain-(?:mount|poster|runtime)|\/scenes\/terrain\/|three\.module/);
+  }
   for (const asset of [
     "poster-desktop.webp", "poster-mobile.webp", "ground-color-4k.webp", "ground-color-2k.webp",
     "ground-normal-4k.webp", "ground-normal-2k.webp", "ground-arm-2k.webp", "ground-arm-1k.webp",
@@ -194,4 +203,53 @@ test("ships responsive, deterministic, accessible visual layers", async () => {
   assert.match(artwork, /viewBox="0 0 1448 1086"/);
   assert.doesNotMatch(artwork, /Math\.random/);
   assert.doesNotMatch(content, /Math\.random/);
+});
+
+
+test("both languages have one correct document, metadata, and matching language links", async () => {
+  for (const path of ["", "/projects", "/resume"]) {
+    for (const prefix of ["", "/zh"]) {
+      const route = `${prefix}${path}` || "/";
+      const html = await (await render(route)).text();
+      const language = prefix ? "zh-CN" : "en";
+      assert.equal((html.match(/<html\b/g) ?? []).length, 1);
+      assert.ok(html.includes(`<html lang="${language}">`));
+      assert.ok(html.includes(`<link rel="canonical" href="https://clarachen.dev${route}"`));
+      for (const [lang, href] of [["en", path || "/"], ["zh-CN", `/zh${path}`]]) {
+        assert.ok(html.includes(`hrefLang="${lang}" href="https://clarachen.dev${href}"`));
+        assert.ok(html.includes(`<a href="${href}" hrefLang="${lang}" lang="${lang}"`));
+      }
+      assert.match(html, /property="og:image" content="https:\/\/clarachen.dev\/og.png"/);
+      const switchMarkup = html.match(/<div class="language-switch"[\s\S]*?<\/div>/)?.[0];
+      assert.equal((switchMarkup?.match(/aria-current="page"/g) ?? []).length, 1);
+      assert.ok(switchMarkup?.includes(`lang="${language}" aria-label="${prefix ? "切换为中文" : "Switch to English"}" aria-current="page"`));
+      if (prefix) {
+        assert.ok(html.includes('href="/zh"'));
+        if (path !== "/resume") {
+          assert.ok(html.includes('href="/zh/resume"'));
+          assert.match(html, /暂停地景运动/);
+          assert.match(html, /重置火星视角/);
+          assert.doesNotMatch(html, /aria-label="(?:Primary navigation|Zoom in|Pause landscape motion)"/);
+        }
+      }
+    }
+  }
+});
+
+test("Chinese content preserves project links, resume metrics, and PDF visibility", async () => {
+  const englishProjects = await (await render("/projects")).text();
+  const chineseProjects = await (await render("/zh/projects")).text();
+  const englishResume = await (await render("/resume")).text();
+  const chineseResume = await (await render("/zh/resume")).text();
+  const repositories = html => [...html.matchAll(/href="(https:\/\/github.com\/cc1107yss\/[^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(repositories(chineseProjects), repositories(englishProjects));
+  assert.deepEqual(repositories(chineseResume), repositories(englishResume));
+  assert.equal((chineseProjects.match(/class="reveal text-project-card"/g) ?? []).length, 6);
+  assert.equal((chineseResume.match(/class="academic-project"/g) ?? []).length, 3);
+  const metrics = html => [...html.matchAll(/<ul class="academic-bullets">([\s\S]*?)<\/ul>/g)].map(match => (match[1].match(/[−-]?\d+(?:[,.]\d+)*(?:%|\+)?/g) ?? []).sort());
+  assert.deepEqual(metrics(chineseResume), metrics(englishResume));
+  assert.match(chineseResume, /北京师范大学/);
+  assert.match(chineseResume, /只读接入 Alpaca Paper/);
+  assert.match(chineseResume, /置信区间/);
+  assert.doesNotMatch(chineseResume, /academic-pdf-link|Download CV|Selected coursework|Internship profile/);
 });

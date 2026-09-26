@@ -1,47 +1,27 @@
 import { Reveal } from "./Reveal";
 import { MarsTerrainSection } from "./scenes/MarsTerrainSection";
-import { otherProjects, projects } from "../content";
+import { getProjectCards } from "../localized-content";
+import { messages, type Locale } from "../i18n";
 
-const projectCards = [
-  ...projects.map((project) => ({
-    slug: project.slug,
-    title: project.title,
-    discipline: project.discipline,
-    summary: project.summary,
-    status: project.status,
-    year: project.year,
-    stack: project.stack,
-    repoUrl: project.repoUrl,
-  })),
-  ...otherProjects.map((project) => ({
-    slug: project.slug,
-    title: project.title,
-    discipline: project.discipline,
-    summary: project.summary,
-    status: project.status,
-    year: project.year,
-    stack: project.stack,
-    repoUrl: project.href,
-  })),
-] as const;
-
-export function ProjectsLanding({ embedded = false }: { embedded?: boolean }) {
-  const title = "I turn questions into models, tools, and experiences.";
+export function ProjectsLanding({ embedded = false, locale }: { embedded?: boolean; locale: Locale }) {
+  const t = messages[locale].projects;
+  const title = t.heading;
+  const projectCards = getProjectCards(locale);
 
   return (
-    <MarsTerrainSection>
+    <MarsTerrainSection locale={locale}>
       <section
         className="page-hero projects-hero"
         id="projects-overview"
         data-nav-theme="sand"
       >
-        <p className="page-eyebrow">Project archive · 2025—2026</p>
+        <p className="page-eyebrow">{t.archive}</p>
         {embedded ? <h2>{title}</h2> : <h1>{title}</h1>}
       </section>
 
-      <section className="projects-text-archive" data-nav-theme="sand" aria-label="Selected work">
+      <section className="projects-text-archive" data-nav-theme="sand" aria-label={t.selected}>
         <div className="projects-text-heading">
-          <p>Selected work</p>
+          <p>{t.selected}</p>
         </div>
 
         <div className="text-project-grid">
@@ -58,7 +38,7 @@ export function ProjectsLanding({ embedded = false }: { embedded?: boolean }) {
               <div className="text-project-card-footer">
                 <span><i aria-hidden="true" />{project.status}</span>
                 <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                  Repository <span aria-hidden="true">↗</span>
+                  {t.repository} <span aria-hidden="true">↗</span>
                 </a>
               </div>
             </Reveal>

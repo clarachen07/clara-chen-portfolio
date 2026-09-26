@@ -1,11 +1,14 @@
 "use client";
 
+import { messages, type Locale } from "../../i18n";
+
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { TerrainController } from "./terrain-types";
 
 type SceneStatus = "waiting" | "ready" | "static" | "fallback";
 
-export function MarsTerrainSection({ children }: { children: ReactNode }) {
+export function MarsTerrainSection({ children, locale }: { children: ReactNode; locale: Locale }) {
+  const t = messages[locale].scenes;
   const section = useRef<HTMLDivElement>(null);
   const mount = useRef<HTMLDivElement>(null);
   const controller = useRef<TerrainController | null>(null);
@@ -129,7 +132,7 @@ export function MarsTerrainSection({ children }: { children: ReactNode }) {
       <div className="terrain-controls" hidden={status !== "ready"}>
           <button
             type="button"
-            aria-label={paused ? "Resume landscape motion" : "Pause landscape motion"}
+            aria-label={paused ? t.landscapeResumeLabel : t.landscapePauseLabel}
             aria-pressed={paused}
             onClick={() => {
               const next = !pausePreference.current;
@@ -139,11 +142,11 @@ export function MarsTerrainSection({ children }: { children: ReactNode }) {
             }}
           >
             <span aria-hidden="true">{paused ? "▷" : "Ⅱ"}</span>
-            {paused ? "Resume landscape" : "Pause landscape"}
+            {paused ? t.landscapeResume : t.landscapePause}
           </button>
       </div>
       <span className="terrain-status" role="status">
-        {status === "fallback" ? "Static landscape shown. The interactive landscape is unavailable." : ""}
+        {status === "fallback" ? t.landscapeFallback : ""}
       </span>
     </div>
   );

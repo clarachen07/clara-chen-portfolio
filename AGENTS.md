@@ -1,6 +1,6 @@
 # Clara Chen Portfolio — Working Rules
 
-Purpose: maintain Clara Chen's responsive English portfolio and résumé at `https://clarachen.dev`.
+Purpose: maintain Clara Chen's responsive English and Simplified Chinese portfolio and résumé at `https://clarachen.dev`.
 
 ## Run and verify
 
@@ -17,11 +17,12 @@ Purpose: maintain Clara Chen's responsive English portfolio and résumé at `htt
 
 ## Source conventions
 
-- `app/content.ts` is the typed source of truth for projects and résumé data.
-- `app/page.tsx` joins the original homepage hero to `ProjectsLanding`; `/projects` reuses the original project experience.
-- Valid legacy `/projects/:slug` routes redirect to `/projects#slug`; unknown slugs are 404.
+- `app/content.ts` is the English source of truth for projects and résumé data; `app/content.zh.ts` contains Chinese translations. Keep factual claims, metrics, and repository links consistent across languages.
+- `app/i18n.ts` owns UI messages and language paths. English routes remain unprefixed; Chinese routes use `/zh`. Thin route wrappers in `app/(en)` and `app/(zh)/zh` share page components and render the correct document language.
+- `app/components/HomePage.tsx` joins the original homepage hero to `ProjectsLanding`; both languages reuse the same homepage and project experience.
+- Valid legacy `/projects/:slug` routes redirect to `/projects#slug`, preserving the `/zh` prefix for Chinese routes; unknown slugs are 404.
 - Keep hero SVG and Mars star output deterministic; do not introduce runtime randomness.
-- Three.js loads on demand for the shared project terrain and Mars footer, and must not load on `/resume`.
+- Three.js loads on demand for the shared project terrain and Mars footer, and must not load on `/resume` or `/zh/resume`.
 - Project terrain uses locally hosted CC0 scans, seeded placement, section-bound scroll motion, a pause control, and same-scene static posters. Preserve reduced-motion fallback and offscreen/background suspension.
 - Preserve Mars pause, offscreen/background suspension, GPU cleanup, keyboard/touch controls, and static fallback.
 - Preserve accessible focus, 44px touch targets, reduced-motion support, and responsive reading sizes.
@@ -30,6 +31,6 @@ Purpose: maintain Clara Chen's responsive English portfolio and résumé at `htt
 
 ## Current status
 
-- The original homepage hero and résumé are preserved. The shared six-project archive uses a warm scanned 3D terrain background and translucent sand-colored glass cards; the interactive Mars globe remains in the footer.
+- The original homepage hero is preserved; both languages share the concise research and engineering résumé. The shared six-project archive uses a warm scanned 3D terrain background and translucent sand-colored glass cards; the interactive Mars globe remains in the footer.
 - Asset attribution is in `public/scenes/CREDITS.txt`. GitHub `main` is the release source; publish only after the validation and deployment checks above.
 - Next step: provide the final résumé PDF when it is ready; keep the PDF action hidden until its public URL is configured.
