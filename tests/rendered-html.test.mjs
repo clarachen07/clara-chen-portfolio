@@ -27,10 +27,10 @@ test("server-renders the complete portfolio route map", async () => {
   const expected = [
     ["/", /aria-label="Clara Chen"/i],
     ["/projects", /I turn questions into models, tools, and experiences/i],
-    ["/resume", /Creator Operations Intern/i],
+    ["/resume", /Operations Intern/i],
     ["/zh", /终身学习，不断探索/],
     ["/zh/projects", /将问题转化为模型、工具与体验/],
-    ["/zh/resume", /创作者运营实习生/],
+    ["/zh/resume", /运营实习生/],
   ];
 
   for (const [pathname, content] of expected) {
@@ -111,7 +111,7 @@ test("resume renders its curated entries in order with valid links and no unavai
     assert.ok(ids.has(target), `Missing anchor: ${target}`);
   }
   assert.equal((html.match(/class="academic-project"/g) ?? []).length, 3);
-  const projectTitles = ["LLM Post-Training &amp; Statistical Evaluation", "Typhoon Extreme-Rainfall Modeling", "Semiconductor Thickness Estimation"];
+  const projectTitles = ["LLM Post-Training, Reasoning &amp; Interpretability Research", "Typhoon Extreme-Rainfall Structure &amp; Field Generation", "Semiconductor Thickness Estimation"];
   let previousIndex = -1;
   for (const title of projectTitles) {
     const index = html.indexOf(`<h3>${title}</h3>`);
@@ -124,7 +124,7 @@ test("resume renders its curated entries in order with valid links and no unavai
   assert.doesNotMatch(html, /href="\/projects#/);
   assert.match(html, /Beijing Normal University/);
   assert.match(html, /Jun 2026 — Present/);
-  assert.match(html, /Beijing Yongyue Intelligent Technology Co\., Ltd\. \(Loopit\)/);
+  assert.match(html, /Beijing Yongyue Intelligence Co\., Ltd\. \(Loopit\)/);
   assert.match(html, /Jun 2026 — Aug 2026/);
   assert.match(html, /Sep 2024 — Jun 2028/);
   assert.match(html, /17,000\+ member Discord community/);
@@ -249,7 +249,7 @@ test("Chinese content preserves project links, resume metrics, and PDF visibilit
   const metrics = html => [...html.matchAll(/<ul class="academic-bullets">([\s\S]*?)<\/ul>/g)].map(match => (match[1].match(/[−-]?\d+(?:[,.]\d+)*(?:%|\+)?/g) ?? []).sort());
   assert.deepEqual(metrics(chineseResume), metrics(englishResume));
   assert.match(chineseResume, /北京师范大学/);
-  assert.match(chineseResume, /只读接入 Alpaca Paper/);
-  assert.match(chineseResume, /置信区间/);
+  assert.match(chineseResume, /QLoRA 消融/);
+  assert.match(chineseResume, /历史伪缺失验证/);
   assert.doesNotMatch(chineseResume, /academic-pdf-link|Download CV|Selected coursework|Internship profile/);
 });

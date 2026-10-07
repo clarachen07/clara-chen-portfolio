@@ -241,25 +241,26 @@ export const resumeData: ResumeData = {
   contactLabel: "Get in touch about internships",
   experience: [
     {
-      role: "Product Manager, AI Platform",
+      role: "Product Manager · Quantitative Developer",
       organization: "Zen Trading",
-      type: "Financial data pipelines · Risk audits · Research automation",
+      type: "Financial research automation · Data engineering · Risk auditing",
       dates: "Jun 2026 — Present",
       bullets: [
-        "Audited maximum-drawdown calculations, integrated read-only Alpaca Paper account data, and corrected cost-data inconsistencies with regression coverage.",
-        "Built Zen Content Hub to automate research and publishing workflows, with persistent queues, deduplication, and failure recovery.",
-        "Reduced content production time by 70%+; supported 200+ published pieces and 50+ days of stable operation.",
+        "Led product design, development, and launch of Slack-driven AI agent workflows for QDII holdings queries, company and macro research, report translation, and U.S. market opening briefs. Built multi-source retrieval, evidence organization, and sentence-level fact-checking with source and citation trails.",
+        "Connected WeChat Official Accounts, Customer.io email, and Discord distribution; implemented SQLite-backed queues, concurrency control, idempotent deduplication, and checkpoint recovery, with offline evaluation, regression testing, and Linux deployment and monitoring.",
+        "Produced 200+ content pieces and gained 300+ followers; reduced production time by 70%+ and maintained stable operation for 50+ days, while improving cost and risk data consistency, traceability, and regression coverage.",
       ],
-      stack: ["Python", "Node.js", "FastAPI", "SQLite"],
+      stack: ["Node.js / Python", "SQLite", "Slack Bolt", "Linux / systemd"],
     },
     {
-      role: "Creator Operations Intern",
-      organization: "Beijing Yongyue Intelligent Technology Co., Ltd. (Loopit)",
-      type: "Data collection · Attribution · Operations engineering",
+      role: "Operations Intern",
+      organization: "Beijing Yongyue Intelligence Co., Ltd. (Loopit)",
+      type: "Data operations · User attribution · Growth analysis",
       dates: "Jun 2026 — Aug 2026",
       bullets: [
-        "Built a read-only collection service for a 17,000+ member Discord community, covering historical backfills and live monitoring.",
-        "Implemented idempotent storage and source tracing; linked authors to in-app creators and delivered a dashboard, JSON API, and deduplicated CSV exports.",
+        "Supported creator operations for a 17,000+ member Discord community; identified and maintained relationships with 500+ creators through targeted outreach, push notifications, and in-app interactions, and established content standards.",
+        "Independently built a creation-link collector for historical backfills and real-time monitoring across accessible channels, with link extraction, idempotent SQLite storage, a dashboard, and deduplicated CSV exports. Linked community authors, creations, and in-app creators for attribution and segmented outreach.",
+        "Community activity reached 25%+ and creator retention reached 90%+ during the operational period; the data pipeline supported user attribution, creation statistics, and daily operations.",
       ],
       stack: ["TypeScript", "Discord.js", "SQLite", "Vitest"],
     },
@@ -280,12 +281,13 @@ export const resumeData: ResumeData = {
   selectedProjects: [
     {
       slug: "llm-evaluation",
-      title: "LLM Post-Training & Statistical Evaluation",
-      discipline: "Experimental design · Statistical inference · Reproducibility",
+      title: "LLM Post-Training, Reasoning & Interpretability Research",
+      discipline: "Ongoing · Post-training · Reasoning · Interpretability",
       year: "2026",
       bullets: [
-        "Built reproducible post-training evaluations with fixed experimental settings and paired bootstrap analysis; audited 128,000 Qwen generations.",
-        "SimpleRL reached 77.93% pass@1 versus 61.39% for Base, but pass@128 was 3.20 percentage points lower (95% CI: −5.00 to −1.40), revealing a performance–coverage trade-off.",
+        "Study how SFT, DPO, and RLVR affect reasoning and internal representations, focusing on symbolic grounding, representation manifolds, and reasoning trajectory geometry. Built inference, automated scoring, and statistical pipelines for MATH-500 and GSM8K stage comparisons, multi-seed sampling, and prompt-protocol experiments.",
+        "Reproduced ProofWriter attention probes with grouped cross-validation and random-weight controls; conducted multi-condition SSP QLoRA ablations, layerwise activation extraction, and trajectory analysis to examine step-boundary sensitivity.",
+        "Established a reproducible workflow spanning behavioral evaluation, internal representation analysis, and statistical validation, with documented protocols, code, and audit records to support further grounding and manifold research.",
       ],
       stack: ["Python", "PyTorch", "Transformers / PEFT", "vLLM"],
       links: [
@@ -295,12 +297,13 @@ export const resumeData: ResumeData = {
     },
     {
       slug: "typhoon-modeling",
-      title: "Typhoon Extreme-Rainfall Modeling",
-      discipline: "Spatiotemporal data · Machine learning · Scenario analysis",
+      title: "Typhoon Extreme-Rainfall Structure & Field Generation",
+      discipline: "Machine learning · Spatiotemporal data · Scenario simulation",
       year: "2026",
       bullets: [
-        "Combined storm tracks, rainfall grids, and terrain data; modeled rainfall structure with random forests and generated fields using analog retrieval, PCA, and quantile calibration.",
-        "Achieved test-set R² of 0.684 for centroid offset; reduced P95 error by 39.7% versus raw templates in pseudo-missing validation.",
+        "Combined CMA storm tracks, GPM half-hourly precipitation, and terrain data in a storm-relative coordinate frame; extracted intensity quantiles, rainband anisotropy, and centroid offsets to model unobserved typhoons.",
+        "Identified drivers with Spearman correlation and random forests; generated rainfall fields through analog retrieval, template fusion, PCA correction, and extreme-quantile mapping for scenario analysis.",
+        "Achieved test-set R² of 0.684 / 0.640 for centroid offset / rainband anisotropy. Historical pseudo-missing validation reduced P95, P99, and heavy-rainfall area errors by 39.7% / 39.4% / 37.1% versus raw templates; won Second Prize in the Beijing Normal University Mathematical Modeling Competition.",
       ],
       stack: ["Python", "NumPy / pandas", "scikit-learn", "Rasterio"],
       links: [{ label: "Repository", href: "https://github.com/cc1107yss/typhoon_rainfall_project" }],
