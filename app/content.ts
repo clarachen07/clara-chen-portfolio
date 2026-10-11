@@ -253,7 +253,7 @@ export const resumeData: ResumeData = {
       stack: ["Node.js / Python", "SQLite", "Slack Bolt", "Linux / systemd"],
     },
     {
-      role: "Operations Intern",
+      role: "Creator Operations",
       organization: "Beijing Yongyue Intelligence Co., Ltd. (Loopit)",
       type: "Data operations · User attribution · Growth analysis",
       dates: "Jun 2026 — Aug 2026",

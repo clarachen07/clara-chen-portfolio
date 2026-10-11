@@ -107,7 +107,7 @@ export const resumeDataZh: ResumeData = {
     },
     {
       ...resumeData.experience[1],
-      role: "运营实习生",
+      role: "创作者运营",
       organization: "北京涌跃智能有限公司（Loopit）",
       type: "数据运营 · 用户归因 · 增长分析",
       dates: "2026.06 — 2026.08",

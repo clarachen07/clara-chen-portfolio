@@ -27,10 +27,10 @@ test("server-renders the complete portfolio route map", async () => {
   const expected = [
     ["/", /aria-label="Clara Chen"/i],
     ["/projects", /I turn questions into models, tools, and experiences/i],
-    ["/resume", /Operations Intern/i],
+    ["/resume", /Creator Operations/i],
     ["/zh", /终身学习，不断探索/],
     ["/zh/projects", /将问题转化为模型、工具与体验/],
-    ["/zh/resume", /运营实习生/],
+    ["/zh/resume", /创作者运营/],
   ];
 
   for (const [pathname, content] of expected) {
